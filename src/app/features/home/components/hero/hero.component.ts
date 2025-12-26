@@ -43,7 +43,7 @@ import { TiltDirective } from '@core/directives/tilt.directive';
               Start Free Trial
             </app-button>
             <app-button variant="outline" size="lg" iconLeft="fas fa-play">
-              Watch Demo
+              Request Demo
             </app-button>
           </div>
         </div>
