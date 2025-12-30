@@ -10,6 +10,10 @@ export class AppRoutes {
             path: 'team',
             loadComponent: () => import('./features/team/team.component').then(m => m.TeamComponent)
         },
+        {
+            path: 'production-dashboard',
+            loadChildren: () => import('./features/production-dashboard/production-dashboard.routes').then(m => m.PRODUCTION_DASHBOARD_ROUTES)
+        },
         { path: '**', redirectTo: '' }
     ];
 }

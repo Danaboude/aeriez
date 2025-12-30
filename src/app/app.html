@@ -1,3 +1,29 @@
-<app-header></app-header>
-<router-outlet></router-outlet>
-<app-footer></app-footer>
+<!-- GLOBAL LOADER -->
+<div *ngIf="isLoading()" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-50">
+
+    <!-- Soft background glow -->
+    <div class="absolute w-72 h-72 rounded-full blur-3xl opacity-20"
+        style="background: radial-gradient(circle, #1E90FF 0%, transparent 70%)">
+    </div>
+
+    <!-- Spinner ring -->
+    <div class="relative flex items-center justify-center">
+        <div class="absolute w-24 h-24 rounded-full border-4 border-transparent animate-spin"
+            style="border-top-color:#1E90FF; border-right-color:#1E90FF;">
+        </div>
+
+        <!-- Logo -->
+        <div class="w-16 h-16 bg-[#1E90FF] rounded-2xl shadow-xl p-3 flex items-center justify-center animate-pulse">
+            <img src="favicon.ico" alt="Loading" class="w-full h-full object-contain" />
+        </div>
+    </div>
+</div>
+
+<!-- MAIN APP CONTENT -->
+<div *ngIf="!isLoading()" class="min-h-screen flex flex-col animate-fade-in">
+    <app-header></app-header>
+    <div class="flex-1">
+        <router-outlet></router-outlet>
+    </div>
+    <app-footer></app-footer>
+</div>

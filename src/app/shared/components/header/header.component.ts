@@ -91,6 +91,7 @@ export class HeaderComponent {
     { label: 'Features', path: '/', fragment: 'features' },
     { label: 'Benefits', path: '/', fragment: 'benefits' },
     { label: 'Team', path: '/team', fragment: '' },
+    { label: 'Dashboard', path: '/production-dashboard', fragment: '' },
     { label: 'Contact', path: '/', fragment: 'contact' },
   ];
 
