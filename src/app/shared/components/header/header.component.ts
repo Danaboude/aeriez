@@ -1,7 +1,8 @@
-import { Component, HostListener, signal } from '@angular/core';
+import { Component, HostListener, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ButtonComponent } from '../button/button.component';
+import { SeasonalEffectsService } from '../../services/seasonal-effects.service';
 
 @Component({
   selector: 'app-header',
@@ -35,6 +36,31 @@ import { ButtonComponent } from '../button/button.component';
 
         <!-- CTA & Mobile Toggle -->
         <div class="flex items-center gap-4">
+          <!-- Season Switcher -->
+          <div class="hidden md:flex items-center bg-gray-100/50 backdrop-blur-sm rounded-full p-1 border border-gray-200">
+            <button 
+              (click)="setSeason('christmas')" 
+              class="p-1.5 rounded-full transition-all duration-300 hover:bg-white hover:shadow-sm"
+              [ngClass]="{'bg-white shadow-md text-blue-500': currentSeason() === 'christmas', 'text-gray-400': currentSeason() !== 'christmas'}"
+              title="Christmas Mode">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M8 7l8 0"/><path d="m8 17 8 0"/><path d="m5 12 14 0"/><path d="m15.5 15.5-7-7"/><path d="m8.5 15.5 7-7"/></svg>
+            </button>
+            <button 
+              (click)="setSeason('easter')" 
+              class="p-1.5 rounded-full transition-all duration-300 hover:bg-white hover:shadow-sm"
+              [ngClass]="{'bg-white shadow-md text-pink-500': currentSeason() === 'easter', 'text-gray-400': currentSeason() !== 'easter'}"
+              title="Easter Mode">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a8 8 0 0 0 8-8c0-3.1-3-7-8-12-5 5-8 8.9-8 12a8 8 0 0 0 8 8Z"/><path d="M9.6 15a3.5 3.5 0 0 0 4.8 0"/></svg>
+            </button>
+            <button 
+              (click)="setSeason('none')" 
+              class="p-1.5 rounded-full transition-all duration-300 hover:bg-white hover:shadow-sm"
+              [ngClass]="{'bg-white shadow-md text-gray-700': currentSeason() === 'none', 'text-gray-400': currentSeason() !== 'none'}"
+              title="Disable Effects">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+          </div>
+
           <app-button 
             variant="primary" 
             size="sm" 
@@ -63,6 +89,27 @@ import { ButtonComponent } from '../button/button.component';
              [ngClass]="{'opacity-100 pointer-events-auto': isMenuOpen(), 'opacity-0 pointer-events-none': !isMenuOpen()}">
           
           <nav class="flex flex-col items-center gap-6">
+            <!-- Mobile Season Switcher -->
+            <div class="flex items-center gap-4 bg-gray-100 rounded-full p-1 mb-4">
+               <button 
+                (click)="setSeason('christmas')" 
+                class="p-2 rounded-full transition-all"
+                [ngClass]="{'bg-white shadow-md text-blue-500': currentSeason() === 'christmas', 'text-gray-400': currentSeason() !== 'christmas'}">
+                ❄️
+              </button>
+              <button 
+                (click)="setSeason('easter')" 
+                class="p-2 rounded-full transition-all"
+                [ngClass]="{'bg-white shadow-md text-pink-500': currentSeason() === 'easter', 'text-gray-400': currentSeason() !== 'easter'}">
+                🥚
+              </button>
+              <button 
+                (click)="setSeason('none')" 
+                class="p-2 rounded-full transition-all"
+                [ngClass]="{'bg-white shadow-md text-gray-700': currentSeason() === 'none', 'text-gray-400': currentSeason() !== 'none'}">
+                🚫
+              </button>
+            </div>
             <a *ngFor="let link of links" 
                [routerLink]="link.path" 
                [fragment]="link.fragment"
@@ -84,8 +131,10 @@ import { ButtonComponent } from '../button/button.component';
   `
 })
 export class HeaderComponent {
+  private seasonalEffects = inject(SeasonalEffectsService);
   isScrolled = signal(false);
   isMenuOpen = signal(false);
+  currentSeason = signal<'christmas' | 'easter' | 'none'>('none');
 
   links = [
     { label: 'Features', path: '/', fragment: 'features' },
@@ -123,5 +172,10 @@ export class HeaderComponent {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }, 100);
+  }
+
+  setSeason(season: 'christmas' | 'easter' | 'none') {
+    this.currentSeason.set(season);
+    this.seasonalEffects.setSeason(season);
   }
 }
