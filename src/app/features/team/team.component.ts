@@ -6,10 +6,10 @@ import { ScrollRevealDirective } from '@core/directives/scroll-reveal.directive'
 import { TeamMemberCardComponent } from './components/team-member-card/team-member-card.component';
 
 @Component({
-    selector: 'app-team',
-    standalone: true,
-    imports: [CommonModule, RouterModule, SectionContainerComponent, ScrollRevealDirective, TeamMemberCardComponent],
-    template: `
+  selector: 'app-team',
+  standalone: true,
+  imports: [CommonModule, RouterModule, SectionContainerComponent, ScrollRevealDirective, TeamMemberCardComponent],
+  template: `
     <div class="pt-20">
       <!-- Header -->
       <section class="bg-gray-50 py-20 text-center">
@@ -67,51 +67,51 @@ import { TeamMemberCardComponent } from './components/team-member-card/team-memb
   `
 })
 export class TeamComponent {
-    members = [
-        {
-            id: 'ives-de-saeger',
-            name: 'Ives De Saeger',
-            role: 'Founder & CEO',
-            image: '/ives.jpg'
-        },
-        {
-            id: 'piotr-scheibe',
-            name: 'Piotr Scheibe',
-            role: 'CTO',
-            image: '/Piotr.jpg'
-        },
-        {
-            id: 'ennio-roels',
-            name: 'Ennio Roels',
-            role: 'Project & Sales Manager',
-            image: '/ennio.jpg'
-        }
-    ];
+  members = [
+    {
+      id: 'ives-de-saeger',
+      name: 'Ives De Saeger',
+      role: 'Founder & CEO',
+      image: '/Ives-de-saeger.png'
+    },
+    {
+      id: 'piotr-scheibe',
+      name: 'Piotr Scheibe',
+      role: 'CTO',
+      image: '/Piotr.jpg'
+    },
+    {
+      id: 'ennio-roels',
+      name: 'Ennio Roels',
+      role: 'Project & Sales Manager',
+      image: '/ennio.jpg'
+    }
+  ];
 
-    values = [
-        {
-            title: 'Righteousness',
-            description: 'We are humans and mistakes happen. We help our colleagues without judgment and guide them.'
-        },
-        {
-            title: 'Fairness',
-            description: 'Everyone is valuable and an expert in his own area. Measures are equal for everybody.'
-        },
-        {
-            title: 'Sincerity',
-            description: 'We are sincere and authentic. We can be ourselves. Working as a team means supporting each other.'
-        },
-        {
-            title: 'Impact',
-            description: 'We choose to experience the slope rather than talking about it. We process an amazing amount of important work.'
-        },
-        {
-            title: 'Freedom',
-            description: 'We get the chance to use our talents in the areas we feel comfortable in. We are stimulated to learn and discover.'
-        },
-        {
-            title: 'Focus',
-            description: 'We are determined to identify root causes and find solutions. We look out for future challenges.'
-        }
-    ];
+  values = [
+    {
+      title: 'Righteousness',
+      description: 'We are humans and mistakes happen. We help our colleagues without judgment and guide them.'
+    },
+    {
+      title: 'Fairness',
+      description: 'Everyone is valuable and an expert in his own area. Measures are equal for everybody.'
+    },
+    {
+      title: 'Sincerity',
+      description: 'We are sincere and authentic. We can be ourselves. Working as a team means supporting each other.'
+    },
+    {
+      title: 'Impact',
+      description: 'We choose to experience the slope rather than talking about it. We process an amazing amount of important work.'
+    },
+    {
+      title: 'Freedom',
+      description: 'We get the chance to use our talents in the areas we feel comfortable in. We are stimulated to learn and discover.'
+    },
+    {
+      title: 'Focus',
+      description: 'We are determined to identify root causes and find solutions. We look out for future challenges.'
+    }
+  ];
 }
