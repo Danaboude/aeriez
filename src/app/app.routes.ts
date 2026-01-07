@@ -14,6 +14,10 @@ export class AppRoutes {
             path: 'production-dashboard',
             loadChildren: () => import('./features/production-dashboard/production-dashboard.routes').then(m => m.PRODUCTION_DASHBOARD_ROUTES)
         },
+        {
+            path: 'tasks',
+            loadComponent: () => import('./features/task-management/task-board.component').then(m => m.TaskBoardComponent)
+        },
         { path: '**', redirectTo: '' }
     ];
 }
