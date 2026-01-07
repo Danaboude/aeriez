@@ -178,7 +178,7 @@ export class TaskBoardComponent {
       description: newTaskData.description || '',
       status: 'TODO',
       priority: newTaskData.priority!,
-      tags: [],
+      tags: newTaskData.tags || [],
       assignee: newTaskData.assignee!,
       reporter: newTaskData.reporter!,
       comments: []

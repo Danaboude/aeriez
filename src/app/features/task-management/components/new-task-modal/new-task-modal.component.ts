@@ -2,13 +2,14 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { Task, TaskPriority, TaskStatus } from '../../models/task.model';
+import { Task, TaskPriority, TaskStatus, User } from '../../models/task.model';
+import { USERS } from '../../data/mock-data';
 
 @Component({
-    selector: 'app-new-task-modal',
-    standalone: true,
-    imports: [CommonModule, FormsModule, ButtonComponent],
-    template: `
+  selector: 'app-new-task-modal',
+  standalone: true,
+  imports: [CommonModule, FormsModule, ButtonComponent],
+  template: `
     <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <!-- Backdrop -->
       <div class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" (click)="onClose.emit()"></div>
@@ -47,7 +48,7 @@ import { Task, TaskPriority, TaskStatus } from '../../models/task.model';
               placeholder="Add more details..."></textarea>
           </div>
 
-          <!-- Priority & Tag Row -->
+          <!-- Priority & Assignee Row -->
           <div class="grid grid-cols-2 gap-4">
              <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
@@ -61,14 +62,37 @@ import { Task, TaskPriority, TaskStatus } from '../../models/task.model';
                 </select>
              </div>
              
-             <!-- Assignee (Hardcoded for now as 'Me' is default) -->
+             <!-- Assignee -->
              <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Assignee</label>
-                <div class="flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed">
-                   <img src="https://ui-avatars.com/api/?name=Me&background=random" class="w-5 h-5 rounded-full">
-                   <span class="text-sm">Me</span>
-                </div>
+                <select 
+                  [(ngModel)]="selectedAssigneeId" 
+                  name="assignee"
+                  class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-white">
+                  <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
+                </select>
              </div>
+          </div>
+
+          <!-- Tags -->
+          <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Tags</label>
+              <div class="flex gap-2 mb-2 flex-wrap">
+                  <span *ngFor="let tag of tags; let i = index" class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs font-medium flex items-center gap-1">
+                      {{ tag }}
+                      <button type="button" (click)="removeTag(i)" class="text-gray-400 hover:text-red-500">×</button>
+                  </span>
+              </div>
+              <div class="flex gap-2">
+                  <input 
+                    type="text" 
+                    [(ngModel)]="newTag" 
+                    name="newTag" 
+                    (keydown.enter)="$event.preventDefault(); addTag()"
+                    class="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all text-sm"
+                    placeholder="Type tag and press Enter">
+                  <button type="button" (click)="addTag()" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg text-sm font-medium transition-colors">Add</button>
+              </div>
           </div>
 
           <div class="pt-4 flex justify-end gap-3">
@@ -90,7 +114,7 @@ import { Task, TaskPriority, TaskStatus } from '../../models/task.model';
       </div>
     </div>
   `,
-    styles: [`
+  styles: [`
     @keyframes fadeInUp {
       from { opacity: 0; transform: scale(0.95) translateY(10px); }
       to { opacity: 1; transform: scale(1) translateY(0); }
@@ -101,26 +125,44 @@ import { Task, TaskPriority, TaskStatus } from '../../models/task.model';
   `]
 })
 export class NewTaskModalComponent {
-    @Output() onClose = new EventEmitter<void>();
-    @Output() onSave = new EventEmitter<Partial<Task>>();
+  @Output() onClose = new EventEmitter<void>();
+  @Output() onSave = new EventEmitter<Partial<Task>>();
 
-    title = '';
-    description = '';
-    priority: TaskPriority = 'MEDIUM';
+  title = '';
+  description = '';
+  priority: TaskPriority = 'MEDIUM';
 
-    onSubmit() {
-        if (this.title.trim()) {
-            this.onSave.emit({
-                title: this.title,
-                description: this.description,
-                priority: this.priority,
-                status: 'TODO',
-                // Default values for new task
-                comments: [],
-                tags: [],
-                assignee: { id: 'me', name: 'Me', avatarUrl: 'https://ui-avatars.com/api/?name=Me&background=random' },
-                reporter: { id: 'me', name: 'Me', avatarUrl: 'https://ui-avatars.com/api/?name=Me&background=random' }
-            });
-        }
+  users = USERS;
+  selectedAssigneeId = USERS[0].id; // Default to first user
+
+  tags: string[] = [];
+  newTag = '';
+
+  addTag() {
+    if (this.newTag.trim()) {
+      this.tags.push(this.newTag.trim());
+      this.newTag = '';
     }
+  }
+
+  removeTag(index: number) {
+    this.tags.splice(index, 1);
+  }
+
+  onSubmit() {
+    if (this.title.trim()) {
+      const assignee = this.users.find(u => u.id === this.selectedAssigneeId) || this.users[0];
+
+      this.onSave.emit({
+        title: this.title,
+        description: this.description,
+        priority: this.priority,
+        status: 'TODO',
+        comments: [],
+        tags: this.tags,
+        assignee: assignee,
+        reporter: this.users.find(u => u.id === 'u1') || assignee // Mock reporter
+      });
+    }
+  }
 }

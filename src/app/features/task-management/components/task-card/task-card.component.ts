@@ -92,6 +92,25 @@ export class TaskCardComponent {
       'LARGE TEAM SUPPORT': 'bg-purple-600',
       'PERFORMANCE': 'bg-pink-500',
     };
-    return colors[tag] || 'bg-gray-400';
+
+    if (colors[tag]) {
+      return colors[tag];
+    }
+
+    const fallbackColors = [
+      'bg-blue-500',
+      'bg-green-600',
+      'bg-indigo-500',
+      'bg-rose-500',
+      'bg-teal-600',
+      'bg-slate-600'
+    ];
+    let hash = 0;
+    for (let i = 0; i < tag.length; i++) {
+      hash = tag.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    const index = Math.abs(hash) % fallbackColors.length;
+    return fallbackColors[index];
   }
 }

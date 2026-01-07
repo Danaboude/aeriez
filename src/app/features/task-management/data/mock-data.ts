@@ -1,6 +1,6 @@
 import { Task } from '../models/task.model';
 
-const USERS = [
+export const USERS = [
     { id: 'u1', name: 'Alex Johnson', avatarUrl: 'https://i.pravatar.cc/150?u=a042581f4e29026024d' },
     { id: 'u2', name: 'Sam Smith', avatarUrl: 'https://i.pravatar.cc/150?u=a042581f4e29026704d' },
     { id: 'u3', name: 'Maria Garcia', avatarUrl: 'https://i.pravatar.cc/150?u=a04258114e29026302d' },
