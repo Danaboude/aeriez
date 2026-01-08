@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { Task } from '../../models/task.model';
 
 @Component({
-    selector: 'app-task-list-view',
-    standalone: true,
-    imports: [CommonModule],
-    template: `
+  selector: 'app-task-list-view',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
@@ -17,7 +17,7 @@ import { Task } from '../../models/task.model';
               <th class="px-6 py-4">Status</th>
               <th class="px-6 py-4">Priority</th>
               <th class="px-6 py-4">Assignee</th>
-              <th class="px-6 py-4 text-right">Story Points</th>
+              <th class="px-6 py-4 text-right">Created</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-100">
@@ -56,7 +56,7 @@ import { Task } from '../../models/task.model';
                  </div>
               </td>
               <td class="px-6 py-4 text-right">
-                <span class="text-sm font-medium text-gray-500">{{ task.storyPoints || '-' }}</span>
+                <span class="text-sm font-medium text-gray-500">{{ task.creationDate | date:'mediumDate' }}</span>
               </td>
             </tr>
           </tbody>
@@ -68,8 +68,8 @@ import { Task } from '../../models/task.model';
       </div>
     </div>
   `,
-    styles: []
+  styles: []
 })
 export class TaskListViewComponent {
-    @Input({ required: true }) tasks: Task[] = [];
+  @Input({ required: true }) tasks: Task[] = [];
 }

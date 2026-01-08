@@ -25,8 +25,21 @@ import { Task } from '../../models/task.model';
         </span>
       </div>
 
+      <div class="mt-3 flex flex-col gap-1 text-xs">
+         <div class="flex items-center gap-1.5 text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span>Created: {{ task.creationDate | date: 'MMM d' }}</span>
+         </div>
+         <div *ngIf="task.dueDate" class="flex items-center gap-1.5 font-medium" 
+              [class.text-red-500]="isOverdue(task.dueDate)"
+              [class.text-gray-500]="!isOverdue(task.dueDate)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <span>Due: {{ task.dueDate | date: 'MMM d' }}</span>
+         </div>
+      </div>
+
       <!-- Footer: Meta & Assignee -->
-      <div class="flex items-center justify-between mt-2 pt-2 border-t border-gray-50">
+      <div class="flex items-center justify-between mt-3 pt-3 border-t border-gray-50">
         <div class="flex items-center gap-3 text-gray-400">
           
           <!-- Priority Icon -->
@@ -34,11 +47,6 @@ import { Task } from '../../models/task.model';
              <svg *ngSwitchCase="'HIGH'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-500"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
              <svg *ngSwitchCase="'MEDIUM'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-500"><path d="M6 9l6 6 6-6"/></svg>
              <svg *ngSwitchCase="'LOW'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-500"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
-          </div>
-
-          <!-- Story Points -->
-          <div *ngIf="task.storyPoints" class="flex items-center gap-1 text-xs font-medium bg-gray-100 px-1.5 py-0.5 rounded text-gray-500">
-            {{ task.storyPoints }}
           </div>
         </div>
 
@@ -112,5 +120,9 @@ export class TaskCardComponent {
 
     const index = Math.abs(hash) % fallbackColors.length;
     return fallbackColors[index];
+  }
+
+  isOverdue(date: Date): boolean {
+    return new Date(date) < new Date();
   }
 }

@@ -5,10 +5,10 @@ import { Task, TaskComment } from '../../models/task.model';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 
 @Component({
-    selector: 'app-task-details-modal',
-    standalone: true,
-    imports: [CommonModule, FormsModule, ButtonComponent],
-    template: `
+  selector: 'app-task-details-modal',
+  standalone: true,
+  imports: [CommonModule, FormsModule, ButtonComponent],
+  template: `
     <div *ngIf="task" class="fixed inset-0 z-[100] flex justify-end" role="dialog">
       <!-- Backdrop -->
       <div class="absolute inset-0 bg-black/30 backdrop-blur-sm transition-opacity" 
@@ -65,8 +65,8 @@ import { ButtonComponent } from '../../../../shared/components/button/button.com
                 </div>
              </div>
              <div>
-                 <span class="block text-xs font-medium text-gray-500 uppercase mb-1">Story Points</span>
-                 <span class="text-sm font-medium text-gray-800">{{ task.storyPoints || '-' }}</span>
+                 <span class="block text-xs font-medium text-gray-500 uppercase mb-1">Created</span>
+                 <span class="text-sm font-medium text-gray-800">{{ task.creationDate | date: 'MMM d' }}</span>
              </div>
                <div>
                  <span class="block text-xs font-medium text-gray-500 uppercase mb-1">Due Date</span>
@@ -116,7 +116,7 @@ import { ButtonComponent } from '../../../../shared/components/button/button.com
       </div>
     </div>
   `,
-    styles: [`
+  styles: [`
     @keyframes slideInRight {
       from { transform: translateX(100%); }
       to { transform: translateX(0); }
@@ -127,16 +127,16 @@ import { ButtonComponent } from '../../../../shared/components/button/button.com
   `]
 })
 export class TaskDetailsModalComponent {
-    @Input({ required: true }) task!: Task;
-    @Output() onClose = new EventEmitter<void>();
-    @Output() onCommentAdd = new EventEmitter<string>();
+  @Input({ required: true }) task!: Task;
+  @Output() onClose = new EventEmitter<void>();
+  @Output() onCommentAdd = new EventEmitter<string>();
 
-    newCommentText = '';
+  newCommentText = '';
 
-    addComment() {
-        if (this.newCommentText.trim()) {
-            this.onCommentAdd.emit(this.newCommentText);
-            this.newCommentText = '';
-        }
+  addComment() {
+    if (this.newCommentText.trim()) {
+      this.onCommentAdd.emit(this.newCommentText);
+      this.newCommentText = '';
     }
+  }
 }

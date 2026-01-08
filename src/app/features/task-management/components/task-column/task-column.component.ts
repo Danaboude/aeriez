@@ -9,7 +9,7 @@ import { TaskCardComponent } from '../task-card/task-card.component';
   standalone: true,
   imports: [CommonModule, DragDropModule, TaskCardComponent],
   template: `
-    <div class="flex flex-col h-full min-w-[320px] max-w-[320px] bg-gray-50/50 rounded-xl border border-gray-200/50 shadow-sm overflow-hidden">
+    <div class="flex flex-col h-full w-full md:min-w-[320px] md:max-w-[320px] bg-gray-50/50 rounded-xl border border-gray-200/50 shadow-sm overflow-hidden">
       <!-- Header -->
       <div class="px-4 py-3 border-b border-gray-100 flex items-center justify-between bg-white/50 backdrop-blur-sm sticky top-0 z-10">
         <div class="flex items-center gap-2">

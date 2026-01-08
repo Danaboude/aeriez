@@ -13,12 +13,12 @@ import { TaskListViewComponent } from './components/task-list-view/task-list-vie
   standalone: true,
   imports: [CommonModule, CdkDropListGroup, TaskColumnComponent, TaskDetailsModalComponent, NewTaskModalComponent, TaskListViewComponent],
   template: `
-    <div class="h-[calc(100vh-80px)] mt-20 p-6 flex flex-col gap-6 overflow-hidden">
+    <div class="h-[calc(100vh-80px)] mt-20 p-6 flex flex-col gap-6 overflow-hidden max-w-[1400px] mx-auto w-full">
       <!-- Header -->
       <div class="flex items-center justify-between flex-shrink-0">
         <div>
-           <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Product Roadmap</h1>
-           <p class="text-sm text-gray-500">Manage tasks, track progress, and collaborate.</p>
+           <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Production Schedule</h1>
+           <p class="text-sm text-gray-500">Track vehicle assembly, maintenance, and logistics.</p>
         </div>
         
         <!-- Actions -->
@@ -45,10 +45,10 @@ import { TaskListViewComponent } from './components/task-list-view/task-list-vie
       </div>
 
       <!-- Board View -->
-      <div *ngIf="viewMode() === 'board'" class="flex-1 overflow-x-auto overflow-y-hidden pb-4">
+      <div *ngIf="viewMode() === 'board'" class="flex-1 overflow-y-auto md:overflow-x-auto md:overflow-y-hidden pb-4">
         <div 
           cdkDropListGroup 
-          class="flex h-full gap-6 min-w-max items-start">
+          class="flex flex-col md:flex-row h-full gap-6 w-full md:min-w-max items-start">
           
           <app-task-column
             *ngFor="let col of columns"
@@ -103,7 +103,7 @@ export class TaskBoardComponent {
   columns = [
     { id: 'TODO', title: 'To Do', tasks: this.todoTasks },
     { id: 'IN_PROGRESS', title: 'In Progress', tasks: this.inProgressTasks },
-    { id: 'CODE_REVIEW', title: 'Code Review', tasks: this.codeReviewTasks },
+    { id: 'CODE_REVIEW', title: 'Quality Check', tasks: this.codeReviewTasks },
     { id: 'DONE', title: 'Done', tasks: this.doneTasks },
   ];
 
@@ -173,7 +173,7 @@ export class TaskBoardComponent {
 
   createNewTask(newTaskData: Partial<Task>) {
     const newTask: Task = {
-      id: `TIS-${Math.floor(Math.random() * 1000)}`,
+      id: `PRD-${Math.floor(Math.random() * 1000)}`,
       title: newTaskData.title!,
       description: newTaskData.description || '',
       status: 'TODO',
@@ -181,6 +181,8 @@ export class TaskBoardComponent {
       tags: newTaskData.tags || [],
       assignee: newTaskData.assignee!,
       reporter: newTaskData.reporter!,
+      creationDate: new Date(),
+      dueDate: newTaskData.dueDate,
       comments: []
     };
 

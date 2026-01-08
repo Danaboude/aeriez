@@ -49,7 +49,6 @@ import { USERS } from '../../data/mock-data';
           </div>
 
           <!-- Priority & Assignee Row -->
-          <div class="grid grid-cols-2 gap-4">
              <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
                 <select 
@@ -62,8 +61,18 @@ import { USERS } from '../../data/mock-data';
                 </select>
              </div>
              
-             <!-- Assignee -->
+             <!-- Due Date -->
              <div>
+               <label class="block text-sm font-medium text-gray-700 mb-1">Due Date</label>
+               <input 
+                 type="date" 
+                 [(ngModel)]="dueDate" 
+                 name="dueDate"
+                 class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-white">
+             </div>
+             
+             <!-- Assignee -->
+             <div class="col-span-2">
                 <label class="block text-sm font-medium text-gray-700 mb-1">Assignee</label>
                 <select 
                   [(ngModel)]="selectedAssigneeId" 
@@ -72,7 +81,6 @@ import { USERS } from '../../data/mock-data';
                   <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
                 </select>
              </div>
-          </div>
 
           <!-- Tags -->
           <div>
@@ -138,6 +146,8 @@ export class NewTaskModalComponent {
   tags: string[] = [];
   newTag = '';
 
+  dueDate: string = '';
+
   addTag() {
     if (this.newTag.trim()) {
       this.tags.push(this.newTag.trim());
@@ -161,7 +171,8 @@ export class NewTaskModalComponent {
         comments: [],
         tags: this.tags,
         assignee: assignee,
-        reporter: this.users.find(u => u.id === 'u1') || assignee // Mock reporter
+        reporter: this.users.find(u => u.id === 'u1') || assignee, // Mock reporter
+        dueDate: this.dueDate ? new Date(this.dueDate) : undefined
       });
     }
   }

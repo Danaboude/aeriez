@@ -25,7 +25,8 @@ export interface Task {
     reporter: User;
     dueDate?: Date;
     comments: TaskComment[];
-    storyPoints?: number;
+    storyPoints?: number; // REMOVED
+    creationDate: Date;
     attachments?: number; // Mocking attachment count
     subtasks?: { total: number; completed: number };
 }
